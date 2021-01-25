@@ -1,0 +1,271 @@
+<h1 id="AWS - 현대 모바일 애플리케이션 개발">AWS - 현대 모바일 애플리케이션 개발</h1>
+<hr>
+
+<p><mark>실습 순서</mark></p>
+<ol start="1"><li>Cloud9 접속
+</li></ol>
+<blockquote>
+<p>1. name : 하고자하는 앱</p>
+<p>2. m5.large 선택</p>
+</blockquote>
+<p><img width="500" src='images/42E64C7E-2CB0-47BF-8862-15E78559E65F.png'></p>
+<blockquote>
+<p>3. create</p>
+</blockquote>
+
+<ol start="2"><li>새로운 콘솔 띄워서 EC2 서비스 접속
+</li></ol>
+<blockquote>
+<p>볼륨 확장 50으로</p>
+<p>1. 인스턴스 정보 중 루트 장치 / dev / xvda 클릭</p>
+<p>2. ESB ID 클릭</p>
+<p>3. 상단에 Action > modify Volume > 50으로 변경</p>
+</blockquote>
+
+<ol start="3"><li>Cloud9 재접속
+</li></ol>
+<blockquote>
+<p>$sudo growpart /dev/nvme0n1 1</p>
+<p>$sudo resize2fs /dev/nvme0n1p1</p>
+<p>$sudo df -h (볼륨 변경 확인)</p>
+</blockquote>
+<p><img  width="500" src='images/6DDDB27E-A8BF-4E44-BCFA-D4B68408B0BE.png'></p>
+<blockquote>
+<p>$echo fs.inotify.max<i>user</i>watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p</p>
+</blockquote>
+<p><img width="500" src='images/26F9A546-56E0-416B-B50A-FC42F9715C34.png'></p>
+<blockquote>
+<p>클라우드9에 대한 여러 제한을 풀어주는 것</p>
+</blockquote>
+
+<ol start="4"><li>Workspace 디렉토리 생성 후 들어가기
+</li></ol>
+<blockquote>
+<p>$nvm i v10</p>
+<p>$npm i -g expo-cli @aws-amplify/cli yarn</p>
+</blockquote>
+<ol start="5"><li>테마를 어둡게 바꿔줄 필요가 있다.
+</li></ol>
+<blockquote>
+<p>상단에 클라우드9 > preferences > themes > Jett</p>
+</blockquote>
+
+<ol start="6"><li>Ourstory 디렉토리 생성 후 들어가기
+</li></ol>
+<blockquote>
+<p>$expo init > 엔터 > 앱이름 입력(our story)</p>
+</blockquote>
+<p><img  width="500" src='images/63E2486F-AC4D-4EB6-8B67-D0FB028CA183.png'></p>
+<p><img  width="500" src='images/F1949C1A-CEFE-403A-8FCF-50569BBBA0FC.png'></p>
+
+<blockquote>
+<p>$curl -s <a href="http://169.254.169.254/latest/meta-data/public-ipv4">http://169.254.169.254/latest/meta-data/public-ipv4</a> <span class='arrow'><svg width="11px" height="10px" viewBox="0 0 11 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >    <g id="right-arrow" >        <path d="M1.77635684e-14,5 L9,5" id="rod" stroke="#000000" stroke-width="2" ></path>        <path d="M11,5 L6,0.5 L6,9.5 L11,5 Z" id="point" fill="#000000"></path>    </g></svg></span> ip 확인</p>
+<p>$export REACT<i>NATIVE</i>PACKAGER_HOSTNAME=확인한 ip(54.180.90.31)</p>
+<p>$ cd ourstory</p>
+<p>$amplify configure</p>
+</blockquote>
+<p><img width="500" src='images/12F7AFAC-E5DE-4F18-ABD7-F889A9CD4DCC.png'></p>
+<p>2번째 선택</p>
+<p><img width="500" src='images/C657DAC7-AF7A-48FA-BB1B-15E3DE355A8A.png'></p>
+<p>이름도 그냥 엔터</p>
+<p>URL 뜨면 클릭 > open > next 전부 눌러서 생성</p>
+<p>생성 후 뜨는 키 복사 붙여넣기</p>
+<p><img width="500" src='images/4136FBD4-C3D3-4A49-AAD5-02F0DCE2326B.png'></p>
+<p><img width="500" src='images/B503C7F7-21F7-4DD2-A955-2541BDFE4385.png'></p>
+
+<p>이름은 지정 없이 엔터</p>
+<p><img width="500" src='images/EA774A5A-8296-48DC-AB0C-1FA1DE6F1DF2.png'></p>
+<p>업데이트</p>
+
+<ol start="7"><li>Our story/ourstory 내에서 작업
+</li></ol>
+<p><img width="500" src='images/894379D0-F77A-42ED-9DA5-1C6A6018852C.png'></p>
+<p>입력 및 선택</p>
+
+<p>$amplify status</p>
+<p><img width="500" src='images/C4B6DE22-2860-4425-BC28-E59D4D35494D.png'></p>
+
+<ol start="8"><li>포트 열어주기
+</li></ol>
+<p>EC2 > 보안그룹 > 인바운드 규칙 추가</p>
+<p><img width="500" src='images/2DD41A8C-3CEA-4B0B-86F5-E969C4FB190D.png'></p>
+
+<ol start="10"><li>QR code 생성
+</li></ol>
+<blockquote>
+<p>$yarn start</p>
+</blockquote>
+<p><img width="500" src='images/33235B4C-4C50-4DF8-A2E5-602FF3588CAE.png'></p>
+<p><img width="500" src='images/%E1%84%89%E1%85%A1%E1%84%8C%E1%85%B5%E1%86%AB%202020.%205.%2029.%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%2025748.jpg'></p>
+
+<p><img width="500" src='images/%E1%84%89%E1%85%A1%E1%84%8C%E1%85%B5%E1%86%AB%202020.%205.%2029.%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%2025712.jpg'></p>
+
+<ol start="11"><li>코드 수정해보기
+</li></ol>
+<blockquote>
+<p>App.js 코드 수정해보면 화면에서 바로 뜬다.</p>
+</blockquote>
+
+<ol start="12"><li>New terminal tab <span class='arrow'><svg width="11px" height="10px" viewBox="0 0 11 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >    <g id="right-arrow" >        <path d="M1.77635684e-14,5 L9,5" id="rod" stroke="#000000" stroke-width="2" ></path>        <path d="M11,5 L6,0.5 L6,9.5 L11,5 Z" id="point" fill="#000000"></path>    </g></svg></span> 작업 디렉토리로 들어가기
+</li></ol>
+<blockquote>
+<p>$ cd workspace/ourstory/ourstory</p>
+</blockquote>
+<ol start="13"><li>설치
+</li></ol>
+<blockquote>
+<p>$  yarn add aws-amplify aws-amplify-react-native <span class='arrow'><svg width="11px" height="10px" viewBox="0 0 11 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >    <g id="right-arrow" >        <path d="M1.77635684e-14,5 L9,5" id="rod" stroke="#000000" stroke-width="2" ></path>        <path d="M11,5 L6,0.5 L6,9.5 L11,5 Z" id="point" fill="#000000"></path>    </g></svg></span> S3, lamda 등 통신 모듈</p>
+<p>$ yarn add native-base <span class='arrow'><svg width="11px" height="10px" viewBox="0 0 11 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >    <g id="right-arrow" >        <path d="M1.77635684e-14,5 L9,5" id="rod" stroke="#000000" stroke-width="2" ></path>        <path d="M11,5 L6,0.5 L6,9.5 L11,5 Z" id="point" fill="#000000"></path>    </g></svg></span> 앱 UI 관련 컴포넌트</p>
+<p>$ yarn add @react-native-community/netinfo@5.5.1 <span class='arrow'><svg width="11px" height="10px" viewBox="0 0 11 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >    <g id="right-arrow" >        <path d="M1.77635684e-14,5 L9,5" id="rod" stroke="#000000" stroke-width="2" ></path>        <path d="M11,5 L6,0.5 L6,9.5 L11,5 Z" id="point" fill="#000000"></path>    </g></svg></span> UI 관련 컴포넌트 추가</p>
+</blockquote>
+
+<ol start="14"><li><b>인증</b>
+</li></ol>
+<blockquote>
+<p>$amplify add auth</p>
+</blockquote>
+<p><img width="500" src='images/B9A18B70-3C43-4142-983F-87CA3DEC594C.png'></p>
+<blockquote>
+<p>$amplify status</p>
+</blockquote>
+<p><img width="500" src='images/E05A7B80-FD45-442D-8772-E266B3EF729F.png'></p>
+<blockquote>
+<p>$amplify push <span class='arrow'><svg width="11px" height="10px" viewBox="0 0 11 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >    <g id="right-arrow" >        <path d="M1.77635684e-14,5 L9,5" id="rod" stroke="#000000" stroke-width="2" ></path>        <path d="M11,5 L6,0.5 L6,9.5 L11,5 Z" id="point" fill="#000000"></path>    </g></svg></span> 확정</p>
+</blockquote>
+<p><img width="500" src='images/AAFA1179-948C-4F09-85A9-3237D868FA32.png'></p>
+<blockquote>
+<p>src 디렉토리 아래에 aws-exports 파일 생성된 것 확인 가능</p>
+</blockquote>
+<ul><li>생성되고 있는 cloudeFormation 으로 접속하면 볼 수 있다.
+</li><li>cognito <span class='arrow'><svg width="11px" height="10px" viewBox="0 0 11 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >    <g id="right-arrow" >        <path d="M1.77635684e-14,5 L9,5" id="rod" stroke="#000000" stroke-width="2" ></path>        <path d="M11,5 L6,0.5 L6,9.5 L11,5 Z" id="point" fill="#000000"></path>    </g></svg></span> 사용자 관리
+</li></ul>
+
+<ol start="15"><li>페이지 생성
+</li></ol>
+<p>App.js </p>
+<pre><code class='code-multiline'>import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+
+import Amplify, { Auth } from 'aws-amplify';
+import { withAuthenticator } from 'aws-amplify-react-native';
+import AWSCONFIG from './src/aws-exports.js';
+
+Amplify.configure({
+   ...AWSCONFIG,
+   Analytics: { 
+       disabled: true
+   }
+});
+
+//import Feed from './src/Feed';
+
+function App() {
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;Text&gt;AAA&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+export default withAuthenticator(App, false);
+</code></pre><ol start="16"><li>회원가입 TEST
+</li></ol>
+<blockquote>
+<p>1. 이름 / 이메일 동일하게 걍 이메일로</p>
+<p>2. 비밀번호 전화번호 입력 후 가입</p>
+<p>3. 이메일로 날아온 코드 입력</p>
+<p>4. 화면 뜨는 거 확인</p>
+</blockquote>
+
+<ol start="17"><li>Api 연동
+</li></ol>
+<blockquote>
+<p>$amplify add api</p>
+</blockquote>
+<p><img width="500" src='images/8DBCF991-6414-4BD4-BEDD-B5E88F754687.png'></p>
+<p><img width="500" src='images/5AE273BB-09E9-4BD2-A45C-C87D779DCB79.png'></p>
+<p>$amplify push</p>
+<p><img width="500" src='images/88C2E530-1895-4B52-BBA5-3DAC4E6E889F.png'></p>
+<p><img width="500" src='images/04F920A5-4750-4C17-91B9-080F53FC219C.png'></p>
+
+
+<ol start="18"><li>스토리지 추가(생성)
+</li></ol>
+<blockquote>
+<p>$amplify add storage</p>
+</blockquote>
+<p><img width="500" src='images/82C70966-C04C-48AB-B0C1-34828ED038AD.png'></p>
+<blockquote>
+<p>$amplify push</p>
+<p>$aws s3 ls | grep 버킷 명 (복사해두기)</p>
+<p>$wget <a href="https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png">https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png</a></p>
+<p>$aws s3 cp ./aws<i>logo</i>smile_1200x630.png <a href="s3://%EB%B2%84%ED%82%B7">s3://버킷</a> 명/public/ —acl public-read</p>
+</blockquote>
+
+
+<ol start="19"><li>스토리지 생성
+</li></ol>
+<blockquote>
+<p>1. Cognito 메뉴 들어가서 아래쪽 앱 클라이언트 ID 복사</p>
+</blockquote>
+<p><img width="500" src='images/407E9929-83AF-49FF-B680-37E9CC926209.png'></p>
+
+<blockquote>
+<p>2. AppSync > 쿼리</p>
+<p>클라이언트 아이디 붙여넣기</p>
+<p>아까 앱에서 가입한 이름, PW로 로그인</p>
+</blockquote>
+<p><img width="500" src='images/FEE91ABD-37F4-40A9-BC2E-755D1AB21A9C.png'></p>
+<blockquote>
+<p>3. 쿼리 입력</p>
+</blockquote>
+<pre><code class='code-multiline'>  mutation createPost {
+    createPost(input: {
+      userId: "test_user_id",
+      username: "myeongju",
+      file: {
+        bucket: "ourstory1-dev54115-dev",
+        region: "ap-northeast-2",
+        key: "aws_logo_smile_1200x630.png"
+      }
+    })
+  }
+</code></pre><blockquote>
+4. 실행
+</blockquote>
+<img width="500" src='images/F812336C-757D-4E17-A6B6-6567FF0E6F68.png'>
+<blockquote>
+5. 확인
+다이나모 디비 <span class='arrow'><svg width="11px" height="10px" viewBox="0 0 11 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >    <g id="right-arrow" >        <path d="M1.77635684e-14,5 L9,5" id="rod" stroke="#000000" stroke-width="2" ></path>        <path d="M11,5 L6,0.5 L6,9.5 L11,5 Z" id="point" fill="#000000"></path>    </g></svg></span> 테이블
+</blockquote>
+<pre><code class='code-multiline'>query fetchPost {
+  listPosts(limit: 10) {
+    items {
+      userId
+      username
+      file { key }
+    }
+  }
+}
+</code></pre><img width="500" src='images/AFBB49A2-2AAC-4E9A-A26B-668CD95D697C.png'>
+
+
+<ol start="20"><li>카메라를 활용
+</li></ol>
+<blockquote>
+<p>1. Header.js 파일 변경</p>
+<p>2. $expo install expo-permissions expo-image-picker</p>
+<p>3.  Feed.js 파일 변경</p>
+<p>4. 서버 재시작</p>
+<p>5. 앱에서 카메라 권한 확인</p>
+
+</blockquote>
